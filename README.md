@@ -2,8 +2,8 @@
 useless HTML is a line of vibecoded HTML software that have stupit uses, this repo will be updated every ~2 weeks
 
 ---updates---
-# first upload (update: BRB)
-this adds the first member to the U-HTML family (Useless-HTML)
+# BRB V1.2
+very minor update...well..kinda..added a custom status feature, so if you couldnt find the perfect satus...just make one!
 -------------
 
 # BRB
@@ -13,6 +13,9 @@ planned project(s) in the future (not guranteed)
 
 "Hello!" a small, nice little HTML that people can switch to that gives like an overview of projects or meeting without need to explain it. (80% chance of being made)
 
+
+notes (new note after every update):
+MUAHAHHA i updated before 2 weeks 
 
 
 REPO CREATED BY CYRUSEATSTOASTER (PORTVLBOI2)
