@@ -16,6 +16,7 @@ planned project(s) in the future (not guranteed)
 
 notes (new note after every update):
 MUAHAHHA i updated before 2 weeks 
+and hello is close to releasing (67, totally not teasing anything)
 
 
 REPO CREATED BY CYRUSEATSTOASTER (PORTVLBOI2)
