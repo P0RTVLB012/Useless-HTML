@@ -2,8 +2,8 @@
 useless HTML is a line of vibecoded HTML software that have stupit uses, this repo will be updated every ~2 weeks
 
 ---updates---
-# BRB V1.3
-another minor update, added a sick mouse trail. credits to fran (mitchings123) 
+# BRB V1.4
+VERY minor update, adds more code organizaton behind the scenes, cedits to fran (mitchings123)
 -------------
 
 # BRB
@@ -15,7 +15,7 @@ brb is a simple but beautiful HTML, its main use is to be a quick page to change
 
 
 # notes (new note after every update):
-Planning on adding way more customization, like font changes, and color pallete and theme changes aswell! (coming 9099)
+Big update soon...
 
 
 REPO CREATED BY CYRUSEATSTOASTER (PORTVLBOI2) AND FRAN (MITCHINGS123)
