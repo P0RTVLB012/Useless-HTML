@@ -7,6 +7,17 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+
+  .circle {
+    height: 24px;
+    width: 24px;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
   body {
     height: 100vh;
     overflow: hidden;
@@ -50,7 +61,7 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s,
-               gradientMove 12s ease-in-out infinite;
+    gradientMove 12s ease-in-out infinite;
     opacity: 0;
   }
 
@@ -160,7 +171,8 @@
     font-size: 0.78rem;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
+    /* cursor: pointer; */
+    cursor: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -195,7 +207,8 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.06);
     font-size: 0.85rem;
-    cursor: pointer;
+    /* cursor: pointer; */
+    cursor: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     line-height: 1;
     display: flex;
@@ -216,6 +229,7 @@
     color: rgba(255, 255, 255, 0.6);
     outline: none;
     width: 190px;
+    cursor: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -236,7 +250,8 @@
     font-size: 0.78rem;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
+    /* cursor: pointer; */
+    cursor: none;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -269,7 +284,8 @@
     font-size: 1.1rem;
     padding: 0.28rem;
     border-radius: 8px;
-    cursor: pointer;
+    /* cursor: pointer; */
+    cursor: none;
     text-align: center;
     line-height: 1.4;
     transition: background 0.15s ease;
@@ -347,6 +363,27 @@
 </style>
 </head>
 <body>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+
   <canvas class="clouds-canvas" id="cloudsCanvas"></canvas>
   <div class="watermark">project created by cyrus (portvlboi2)</div>
   <div class="glow"></div>
@@ -390,6 +427,52 @@
   </div>
 
 <script>
+  document.addEventListener("mousemove", () => {
+  document.body.style.cursor = "none";
+});
+    // circles
+const coords = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+const circles = document.querySelectorAll(".circle");
+
+const colors = ["#667eea", "#8180f1", "#9b82f7", "#b483fb", "#d47ced", "#ef70cb", "#fb6ca7", "#fb7185"];
+
+circles.forEach(function(circle, index) {
+    circle.x = coords.x;
+    circle.y = coords.y;
+    circle.style.backgroundColor = colors[index % colors.length];
+    circle.style.zIndex = circles.length - index;
+});
+
+window.addEventListener("mousemove", function(e) {
+    coords.x = e.clientX
+    coords.y = e.clientY
+
+});
+
+function animateCircles() {
+  
+    let x = coords.x;
+    let y = coords.y;
+
+    circles.forEach(function (circle, index) {
+        circle.style.left = x - 12 + "px";
+        circle.style.top = y - 12 + "px";
+
+        circle.style.scale = (circles.length - index) / circles.length;
+        circle.x = x;
+        circle.y = y;
+
+        const nextCircle = circles[index + 1] || circles[0];
+        x += (nextCircle.x - x) * 0.3;
+        y += (nextCircle.y - y) * 0.3;
+    });
+
+    requestAnimationFrame(animateCircles);
+}
+animateCircles();
+
+// circles thing ends and rest of code
+
   const icons = {
     away:   '<svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
     coffee: '<svg viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>',
