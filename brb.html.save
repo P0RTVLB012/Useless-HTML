@@ -177,109 +177,6 @@
 
   .preset-btn:active { transform: scale(0.97); }
 
-  /* Custom status row */
-  .custom-status {
-    margin-top: 0.75rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.4rem;
-    opacity: 0;
-    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.1s;
-  }
-
-  .emoji-wrap { position: relative; display: inline-flex; }
-
-  .emoji-btn {
-    padding: 0.38rem 0.7rem;
-    border-radius: 980px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.06);
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    line-height: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  .emoji-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.06); }
-  .emoji-btn:active { transform: scale(0.97); }
-
-  .custom-input {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 980px;
-    padding: 0.38rem 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.6);
-    outline: none;
-    width: 190px;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .custom-input::placeholder { color: rgba(255, 255, 255, 0.2); }
-
-  .custom-input:focus {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.09);
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .set-btn {
-    padding: 0.38rem 0.95rem;
-    border-radius: 980px;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .set-btn:hover { background: rgba(255, 255, 255, 0.18); color: rgba(255, 255, 255, 0.85); transform: scale(1.04); }
-  .set-btn:active { transform: scale(0.97); }
-
-  /* Emoji picker popover */
-  .emoji-picker {
-    position: absolute;
-    bottom: calc(100% + 0.5rem);
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
-    background: rgba(18, 18, 18, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    border-radius: 16px;
-    padding: 0.7rem;
-    display: none;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.2rem;
-    z-index: 10;
-    width: 248px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  }
-
-  .emoji-picker.open { display: grid; }
-
-  .emoji-option {
-    font-size: 1.1rem;
-    padding: 0.28rem;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    line-height: 1.4;
-    transition: background 0.15s ease;
-    border: none;
-    background: none;
-  }
-
-  .emoji-option:hover { background: rgba(255, 255, 255, 0.1); }
-  .emoji-option.selected { background: rgba(255, 255, 255, 0.18); }
-
   .steam-container {
     position: fixed;
     bottom: 12%;
@@ -304,22 +201,6 @@
     15%  { opacity: 1; }
     70%  { opacity: 0.4; }
     100% { opacity: 0; transform: translateY(-100px) scaleX(3) translateX(var(--drift)); }
-  }
-
-  .watermark {
-    position: fixed;
-    bottom: 1.2rem;
-    right: 1.4rem;
-    z-index: 2;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-    font-size: 0.65rem;
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    color: rgba(255, 255, 255, 0.18);
-    opacity: 0;
-    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.2s;
-    pointer-events: none;
-    user-select: none;
   }
 
   .glow {
@@ -348,7 +229,6 @@
 </head>
 <body>
   <canvas class="clouds-canvas" id="cloudsCanvas"></canvas>
-  <div class="watermark">project created by cyrus (portvlboi2)</div>
   <div class="glow"></div>
   <div class="steam-container" id="steamContainer"></div>
 
@@ -378,15 +258,6 @@
       <button class="preset-btn" data-status="Dealing with something IRL" data-icon="busy">Busy</button>
       <button class="preset-btn" data-status="Getting water" data-icon="water">Water</button>
     </div>
-
-    <div class="custom-status">
-      <div class="emoji-wrap">
-        <button class="emoji-btn" id="emojiBtn">✨</button>
-        <div class="emoji-picker" id="emojiPicker"></div>
-      </div>
-      <input class="custom-input" id="customInput" type="text" placeholder="Custom status…" maxlength="48" />
-      <button class="set-btn" id="setBtn">Set</button>
-    </div>
   </div>
 
 <script>
@@ -406,55 +277,6 @@
       document.getElementById('statusText').textContent = btn.dataset.status;
       document.getElementById('statusIcon').innerHTML = icons[btn.dataset.icon] || icons.away;
     });
-  });
-
-  // Emoji picker
-  const emojis = [
-    '✨','🔥','💫','🌙','⚡','🎯','🌊','🍃','🎵','🎮','🧃','☕','🍕','🌮',
-    '🦋','🐾','🌸','🍀','🌴','🏔️','🚀','🛸','💎','🔮','🪐','🌈','❄️','🌙',
-    '👾','🤖','🎲','🃏','🧩','📡','💻','🖤','🩶','🤍','🫧','🌀','♾️','🔗',
-    '🎧','🎤','🎸','🥁','🎻','🎺','🪗','🎷','📸','🖼️','✏️','📝','📚','🔭',
-  ];
-
-  let selectedEmoji = '✨';
-  const emojiBtn = document.getElementById('emojiBtn');
-  const emojiPicker = document.getElementById('emojiPicker');
-
-  emojis.forEach(e => {
-    const btn = document.createElement('button');
-    btn.className = 'emoji-option' + (e === selectedEmoji ? ' selected' : '');
-    btn.textContent = e;
-    btn.addEventListener('click', () => {
-      selectedEmoji = e;
-      emojiBtn.textContent = e;
-      document.querySelectorAll('.emoji-option').forEach(o => o.classList.remove('selected'));
-      btn.classList.add('selected');
-      emojiPicker.classList.remove('open');
-    });
-    emojiPicker.appendChild(btn);
-  });
-
-  emojiBtn.addEventListener('click', (ev) => {
-    ev.stopPropagation();
-    emojiPicker.classList.toggle('open');
-  });
-
-  document.addEventListener('click', () => emojiPicker.classList.remove('open'));
-  emojiPicker.addEventListener('click', e => e.stopPropagation());
-
-  // Set custom status
-  function applyCustomStatus() {
-    const text = document.getElementById('customInput').value.trim();
-    if (!text) return;
-    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('statusText').textContent = text;
-    const icon = document.getElementById('statusIcon');
-    icon.innerHTML = `<span style="font-size:0.95rem;line-height:1;">${selectedEmoji}</span>`;
-  }
-
-  document.getElementById('setBtn').addEventListener('click', applyCustomStatus);
-  document.getElementById('customInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') applyCustomStatus();
   });
 
   const steamContainer = document.getElementById('steamContainer');
