@@ -12,7 +12,7 @@ brb is a simple but beautiful HTML, its main use is to be a quick page to change
 # planned project(s) in the future (not guranteed)
 
 "Hello!" a small, nice little HTML that people can switch to that gives like an overview of projects or meeting without need to explain it. (80% chance of being made)
-
+"spin me" another HTML where a wheel exists and you put stuff on it. thats it.
 
 # notes (new note after every update):
 Hello has a very small chance of being developed rn cause we are working on BRB.
