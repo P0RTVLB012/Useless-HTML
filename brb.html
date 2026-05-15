@@ -172,6 +172,96 @@ body.mango-bg { animation: mangoBgFlash 0.25s step-end infinite; }
   100% { background-position: 0% 50%; }
 }
 
+/* ── timer ── */
+.timer-wrap {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  opacity: 0;
+  animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1) forwards 0.35s;
+  transition: opacity 0.4s ease;
+}
+
+.timer-display {
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 12s ease-in-out infinite;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  transition: transform 0.15s cubic-bezier(0.16,1,0.3,1);
+}
+
+.timer-display.pulse-tick {
+  transform: scale(1.04);
+}
+
+.timer-done-text {
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 12s ease-in-out infinite, doneGlow 1.8s ease-in-out infinite alternate;
+  display: none;
+}
+@keyframes doneGlow {
+  from { filter: brightness(1); }
+  to   { filter: brightness(1.3); }
+}
+
+.timer-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.timer-add-btn {
+  padding: 0.28rem 0.65rem;
+  border-radius: 980px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.35);
+  cursor: none;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+.timer-add-btn:hover {
+  background: rgba(255,255,255,0.11);
+  color: rgba(255,255,255,0.65);
+  transform: scale(1.06);
+}
+.timer-add-btn:active { transform: scale(0.96); }
+
+.timer-reset-btn {
+  padding: 0.28rem 0.65rem;
+  border-radius: 980px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.2);
+  cursor: none;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+.timer-reset-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  transform: scale(1.06);
+}
+.timer-reset-btn:active { transform: scale(0.96); }
+
 .subtext {
   margin-top: 0.8rem;
   font-size: clamp(0.95rem, 2vw, 1.2rem);
@@ -313,31 +403,27 @@ body.mango-bg { animation: mangoBgFlash 0.25s step-end infinite; }
   position: absolute;
   bottom: calc(100% + 0.5rem); left: 50%;
   transform: translateX(-50%);
-  background: rgba(14,14,14,0.97);
+  background: rgba(18,18,18,0.95);
   border: 1px solid rgba(255,255,255,0.1);
   backdrop-filter: blur(30px) saturate(180%);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
-  border-radius: 16px; padding: 0.6rem;
+  border-radius: 16px; padding: 0.7rem;
   display: none;
-  flex-direction: column;
-  gap: 0;
-  z-index: 10; width: 280px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+  z-index: 10; width: 248px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
-.emoji-picker.open { display: flex; }
+.emoji-picker.open { display: grid; }
 .emoji-option {
-  font-size: 1.15rem; padding: 0.22rem;
-  border-radius: 6px; cursor: none;
+  font-size: 1.1rem; padding: 0.28rem;
+  border-radius: 8px; cursor: none;
   text-align: center; line-height: 1.4;
-  transition: background 0.12s ease;
+  transition: background 0.15s ease;
   border: none; background: none;
-  flex-shrink: 0;
 }
 .emoji-option:hover { background: rgba(255,255,255,0.1); }
-.emoji-option.selected { background: rgba(255,255,255,0.2); }
-.emoji-picker ::-webkit-scrollbar { width: 4px; }
-.emoji-picker ::-webkit-scrollbar-track { background: transparent; }
-.emoji-picker ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+.emoji-option.selected { background: rgba(255,255,255,0.18); }
 
 /* mango stop */
 .mango-stop {
@@ -430,6 +516,19 @@ body.mango-bg { animation: mangoBgFlash 0.25s step-end infinite; }
 
   <div class="container">
     <div class="brb" id="brbText">brb</div>
+
+    <div class="timer-wrap" id="timerWrap">
+      <div class="timer-display" id="timerDisplay"></div>
+      <div class="timer-done-text" id="timerDoneText">coming back....</div>
+      <div class="timer-controls" id="timerControls">
+        <button class="timer-add-btn" data-secs="60">+1m</button>
+        <button class="timer-add-btn" data-secs="300">+5m</button>
+        <button class="timer-add-btn" data-secs="600">+10m</button>
+        <button class="timer-add-btn" data-secs="900">+15m</button>
+        <button class="timer-reset-btn" id="timerReset">reset</button>
+      </div>
+    </div>
+
     <div class="subtext">Be right back.</div>
     <div class="dot-container">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -620,110 +719,30 @@ document.querySelectorAll('.preset-btn').forEach(btn => {
 });
 
 // ── emoji picker ─────────────────────────────────────────────────
-// ── emoji picker ─────────────────────────────────────────────────
-const EMOJI_CATS = {
-  '😀 Smileys': ['😀','😃','😄','😁','😆','😅','🤣','😂','🙂','🙃','🫠','😉','😊','😇','🥰','😍','🤩','😘','😗','☺️','😚','😙','🥲','😋','😛','😜','🤪','😝','🤑','🤗','🫡','🤭','🫢','🫣','🤫','🤔','🫤','🤐','🤨','😐','😑','😶','🫥','😶‍🌫️','😏','😒','🙄','😬','😮‍💨','🤥','🫨','😌','😔','😪','🤤','😴','😷','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','😵','😵‍💫','🤯','🤠','🥳','🥸','😎','🤓','🧐','😕','🫠','😟','🙁','☹️','😮','😯','😲','😳','🥺','🥹','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😤','😡','😠','🤬','😈','👿','💀','☠️','💩','🤡','👹','👺','👻','👽','👾','🤖'],
-  '👋 People': ['👋','🤚','🖐️','✋','🖖','🫱','🫲','🫳','🫴','🫷','🫸','👌','🤌','🤏','✌️','🤞','🫰','🤟','🤘','🤙','👈','👉','👆','🖕','👇','☝️','🫵','👍','👎','✊','👊','🤛','🤜','👏','🙌','🫶','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦿','🦵','🦶','👂','🦻','👃','🫀','🫁','🧠','🦷','🦴','👀','👁️','👅','👄','🫦','💋','👶','🧒','👦','👧','🧑','👱','👨','🧔','👩','🧓','👴','👵','🙍','🙎','🙅','🙆','💁','🙋','🧏','🙇','🤦','🤷','👮','🕵️','💂','🥷','👷','🫅','🤴','👸','👳','👲','🧕','🤵','👰','🤰','🫃','🫄','🤱','👼','🎅','🤶','🧑‍🎄','🦸','🦹','🧙','🧝','🧛','🧟','🧌','🧞','🧜','🧚','🫧','👣','🧑‍⚕️','👨‍⚕️','👩‍⚕️','🧑‍🎓','👨‍🎓','👩‍🎓','🧑‍🏫','👨‍🏫','👩‍🏫','🧑‍⚖️','👨‍⚖️','👩‍⚖️','🧑‍🌾','👨‍🌾','👩‍🌾','🧑‍🍳','👨‍🍳','👩‍🍳','🧑‍🔧','👨‍🔧','👩‍🔧','🧑‍🏭','👨‍🏭','👩‍🏭','🧑‍💼','👨‍💼','👩‍💼','🧑‍🔬','👨‍🔬','👩‍🔬','🧑‍🎨','👨‍🎨','👩‍🎨','🧑‍🚒','👨‍🚒','👩‍🚒','🧑‍✈️','👨‍✈️','👩‍✈️','🧑‍🚀','👨‍🚀','👩‍🚀','🧑‍💻','👨‍💻','👩‍💻','👫','👬','👭','💑','💏','👨‍👩‍👦','👨‍👩‍👧','👨‍👩‍👧‍👦','👨‍👩‍👦‍👦','👨‍👩‍👧‍👧','👨‍👦','👨‍👧','👩‍👦','👩‍👧'],
-  '🐶 Animals': ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐻‍❄️','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄','🐝','🪱','🐛','🦋','🐌','🐞','🐜','🪲','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🐊','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🦣','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🦬','🐃','🐂','🐄','🐎','🐖','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐕‍🦺','🐈','🐈‍⬛','🐓','🦃','🦤','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦫','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲','🌵','🎄','🌲','🌳','🌴','🪵','🌱','🌿','☘️','🍀','🎍','🪴','🎋','🍃','🍂','🍁','🪺','🪹','🍄','🌾','💐','🌷','🌹','🥀','🪷','🌺','🌸','🌼','🌻','🌞','🌝','🌛','🌜','🌚','🌕','🌖','🌗','🌘','🌑','🌒','🌓','🌔','🌙','🌟','⭐','🌠','🌌','☁️','⛅','🌤️','🌥️','🌦️','🌧️','⛈️','🌩️','🌨️','❄️','💨','🌪️','🌫️','🌬️','🌀','🌈','🌂','☂️','☔','⛱️','⚡','❄️','🔥','💧','🌊','🫧'],
-  '🍎 Food': ['🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🫛','🥦','🥬','🥒','🌶️','🫑','🧄','🧅','🥔','🍠','🫘','🥐','🥯','🍞','🥖','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🥩','🍗','🍖','🌭','🍔','🍟','🍕','🫓','🥪','🥙','🧆','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','🦪','🍤','🍙','🍚','🍘','🍥','🥮','🍢','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🧃','🥤','🧋','☕','🍵','🫖','🍺','🍻','🥂','🍷','🫗','🥃','🍸','🍹','🧉','🍾','🧊','🥄','🍴','🍽️','🥢','🧂'],
-  '⚽ Activities': ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🛝','🎣','🤿','🎽','🎿','🛷','🥌','🎯','🪀','🪆','🎮','🕹️','🎲','♟️','🎭','🎨','🖼️','🎰','🎳','🏋️','🤼','🤸','⛹️','🤺','🏇','⛷️','🏂','🪂','🏌️','🏄','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖️','🎗️','🎫','🎟️','🎪','🤹','🎬','🎤','🎧','🎼','🎵','🎶','🥁','🪘','🎷','🎺','🎸','🪕','🎻','🪗','🎹','🪈','🎠','🎡','🎢','🎪','🎭','🎨','🖼️'],
-  '✈️ Travel': ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍️','🛵','🛺','🚲','🛴','🛹','🛼','🚏','🛣️','🛤️','⛽','🛞','🚨','🚥','🚦','🛑','🚧','⚓','🛟','⛵','🛶','🚤','🛳️','⛴️','🛥️','🚢','✈️','🛩️','🛫','🛬','🪂','💺','🚁','🚟','🚠','🚡','🛰️','🚀','🛸','🛆','🌍','🌎','🌏','🗺️','🧭','🧱','🏗️','🏘️','🏚️','🏠','🏡','🏢','🏣','🏤','🏥','🏦','🏨','🏩','🏪','🏫','🏬','🏭','🏯','🏰','💒','🗼','🗽','⛪','🕌','🛕','🕍','🕋','⛩️','🗾','🎑','🏞️','🌅','🌄','🌠','🎇','🎆','🌇','🌆','🏙️','🌃','🌌','🌉','🌁'],
-  '💡 Objects': ['⌚','📱','📲','💻','⌨️','🖥️','🖨️','🖱️','🖲️','💽','💾','💿','📀','📷','📸','📹','🎥','📽️','🎞️','📞','☎️','📟','📠','📺','📻','🧭','⏱️','⏲️','⏰','🕰️','⌛','⏳','📡','🔋','🔌','💡','🔦','🕯️','🪔','🧯','🛢️','💰','💴','💵','💶','💷','💸','💳','🪙','💹','📈','📉','📊','📋','📌','📍','✂️','🗃️','🗄️','🗑️','🔒','🔓','🔏','🔐','🔑','🗝️','🔨','🪓','⛏️','⚒️','🛠️','🗡️','⚔️','🛡️','🔧','🪛','🔩','⚙️','🗜️','⚖️','🦯','🔗','⛓️','🪝','🧲','🪜','🧪','🧫','🧬','🔭','🔬','🩺','💊','🩹','🩼','🩻','🩸','🧴','🧷','🧹','🧺','🧻','🪣','🧼','🫧','🪥','🧽','🛒','🚪','🪞','🪟','🛏️','🛋️','🪑','🚽','🪠','🚿','🛁','🪤','🧸','🪆','🖼️','🛍️','🎁','🎀','🎊','🎉','🎈','🪅','🎐','🎏','🎑','🧧','🎎','🎍','🎋','🎄','🎆','🎇','🧨','✨','🎃','🎑','🎊','🎋','🎍','🎎'],
-  '🔤 Symbols': ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❤️‍🔥','❤️‍🩹','❣️','💕','💞','💓','💗','💖','💘','💝','💟','☮️','✝️','☪️','🕉️','☸️','🪯','✡️','🔯','🕎','☯️','☦️','🛐','⛎','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','🆔','⚛️','🉑','☢️','☣️','📴','📳','🈶','🈚','🈸','🈺','🈷️','✴️','🆚','💮','🉐','㊙️','㊗️','🈴','🈵','🈹','🈲','🅰️','🅱️','🆎','🆑','🅾️','🆘','❌','⭕','🛑','⛔','📛','🚫','💯','💢','♨️','🚷','🚯','🚳','🚱','🔞','📵','🚭','❗','❕','❓','❔','‼️','⁉️','🔅','🔆','〽️','⚠️','🚸','🔱','⚜️','🔰','♻️','✅','🈯','💹','❇️','✳️','❎','🌐','💠','Ⓜ️','🌀','💤','🏧','🚾','♿','🅿️','🛗','🈳','🈂️','🛂','🛃','🛄','🛅','🚹','🚺','🚼','⚧️','🚻','🚮','🎦','📶','🈁','🔣','ℹ️','🔤','🔡','🔠','🆖','🆗','🆙','🆒','🆕','🆓','0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟','🔢','#️⃣','*️⃣','⏏️','▶️','⏸️','⏹️','⏺️','⏭️','⏮️','⏩','⏪','⏫','⏬','◀️','🔼','🔽','➡️','⬅️','⬆️','⬇️','↗️','↘️','↙️','↖️','↕️','↔️','↪️','↩️','⤴️','⤵️','🔃','🔄','🔙','🔚','🔛','🔜','🔝','🛐','⚛️','🔀','🔁','🔂','▶️','🔼','🔽','⏸️','⏹️','⏺️','🎦','🔅','🔆','📶','📳','📴','📵','📁','📂','📄','📃','📑','🗒️','🗓️','📆','📅','🗑️','📇','📈','📉','📊','📋','📌','📍','📎','🖇️','📏','📐','✂️','🗃️','🗄️','🗑️'],
-  '🌟 Popular': ['⭐','🌟','✨','💫','🔥','💥','❄️','🌈','🎉','🎊','💎','👑','🏆','🎯','💯','🙏','👏','🤝','💪','🧠','👀','💀','🫶','❤️','🧡','💛','💚','💙','💜','🖤','💔','😭','😂','🥹','🫠','🤯','😎','🥳','😍','🤩','🫡','💀','👾','🤖','🎮','🎵','🎶','🍕','☕','🧃','🍉','🥭','🌮','🍜','🍣','👋','✌️','🤙','🫵','💅','🙌','🤌','🔮','🪄','🌙','🌊','🍀','🦋','🌸','🌺','🌻','🐉','🦄','🐸','🦊','🐺','🌵','🏔️','🌅','🚀','🛸','🌌','🎸','🎹','🎺','🥁','🎨','📸','💻','📱','🔑','🗝️','⚡','🫧','🪩','🏳️‍🌈','🏳️‍⚧️'],
-};
-
-const ALL_EMOJIS_FLAT = Object.values(EMOJI_CATS).flat();
-
+const emojis = [
+  '✨','🔥','💫','🌙','⚡','🎯','🌊','🍃','🎵','🎮','🧃','☕','🍕','🌮',
+  '🦋','🐾','🌸','🍀','🌴','🏔️','🚀','🛸','💎','🔮','🪐','🌈','❄️','🌙',
+  '👾','🤖','🎲','🃏','🧩','📡','💻','🖤','🩶','🤍','🫧','🌀','♾️','🔗',
+  '🎧','🎤','🎸','🥁','🎻','🎺','🪗','🎷','📸','🖼️','✏️','📝','📚','🔭',
+];
 let selectedEmoji = '✨';
 const emojiBtn    = document.getElementById('emojiBtn');
 const emojiPicker = document.getElementById('emojiPicker');
 
-function buildPicker(filter = '') {
-  emojiPicker.innerHTML = '';
-
-  // search bar
-  const searchWrap = document.createElement('div');
-  searchWrap.style.cssText = 'padding:0 0 0.5rem 0;width:100%;';
-  const searchInput = document.createElement('input');
-  searchInput.type = 'text';
-  searchInput.placeholder = 'search emoji…';
-  searchInput.value = filter;
-  searchInput.style.cssText = `
-    width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
-    border-radius:8px;padding:0.3rem 0.6rem;font-size:0.75rem;color:rgba(255,255,255,0.7);
-    outline:none;font-family:inherit;cursor:text;
-  `;
-  searchInput.addEventListener('input', e => {
-    e.stopPropagation();
-    buildPicker(e.target.value);
-    emojiPicker.querySelector('input')?.focus();
-  });
-  searchInput.addEventListener('click', e => e.stopPropagation());
-  searchInput.addEventListener('keydown', e => e.stopPropagation());
-  searchWrap.appendChild(searchInput);
-  emojiPicker.appendChild(searchWrap);
-
-  const lc = filter.toLowerCase();
-  const grid = document.createElement('div');
-  grid.style.cssText = 'display:grid;grid-template-columns:repeat(8,1fr);gap:0.15rem;max-height:220px;overflow-y:auto;overflow-x:hidden;';
-  // custom scrollbar
-  grid.style.scrollbarWidth = 'thin';
-  grid.style.scrollbarColor = 'rgba(255,255,255,0.15) transparent';
-
-  if (filter) {
-    // flat search
-    ALL_EMOJIS_FLAT.filter(e => {
-      // basic name match via codepoint description not available, so just show all on empty
-      return true;
-    });
-    const matches = ALL_EMOJIS_FLAT.filter((e, i, a) => a.indexOf(e) === i); // dedupe
-    // For search we do substring match on the emoji itself (works for typed emoji chars)
-    // and show everything since we can't search by name without a DB
-    const toShow = filter ? ALL_EMOJIS_FLAT.filter((e,i,a)=>a.indexOf(e)===i && e.includes(lc)) : ALL_EMOJIS_FLAT.filter((e,i,a)=>a.indexOf(e)===i);
-    if (toShow.length === 0) {
-      const msg = document.createElement('div');
-      msg.style.cssText = 'color:rgba(255,255,255,0.3);font-size:0.72rem;padding:0.5rem;text-align:center;grid-column:1/-1;';
-      msg.textContent = 'no results';
-      grid.appendChild(msg);
-    }
-    toShow.forEach(e => grid.appendChild(makeBtn(e)));
-  } else {
-    // categorized
-    Object.entries(EMOJI_CATS).forEach(([cat, emojis]) => {
-      const label = document.createElement('div');
-      label.style.cssText = 'font-size:0.6rem;color:rgba(255,255,255,0.25);letter-spacing:0.05em;text-transform:uppercase;padding:0.4rem 0 0.15rem;grid-column:1/-1;';
-      label.textContent = cat;
-      grid.appendChild(label);
-      emojis.forEach(e => grid.appendChild(makeBtn(e)));
-    });
-  }
-
-  emojiPicker.appendChild(grid);
-  if (filter) searchInput.focus();
-}
-
-function makeBtn(e) {
+emojis.forEach(e => {
   const b = document.createElement('button');
   b.className = 'emoji-option' + (e === selectedEmoji ? ' selected' : '');
   b.textContent = e;
-  b.title = e;
-  b.addEventListener('click', ev => {
-    ev.stopPropagation();
+  b.addEventListener('click', () => {
     selectedEmoji = e;
     emojiBtn.textContent = e;
     document.querySelectorAll('.emoji-option').forEach(o => o.classList.remove('selected'));
     b.classList.add('selected');
     emojiPicker.classList.remove('open');
   });
-  return b;
-}
-
-emojiBtn.addEventListener('click', ev => {
-  ev.stopPropagation();
-  const isOpen = emojiPicker.classList.toggle('open');
-  if (isOpen) { buildPicker(); setTimeout(()=>emojiPicker.querySelector('input')?.focus(), 50); }
+  emojiPicker.appendChild(b);
 });
+emojiBtn.addEventListener('click', ev => { ev.stopPropagation(); emojiPicker.classList.toggle('open'); });
 document.addEventListener('click', () => emojiPicker.classList.remove('open'));
 emojiPicker.addEventListener('click', e => e.stopPropagation());
 
@@ -835,6 +854,95 @@ document.querySelectorAll('.font-btn').forEach(btn => {
     document.getElementById('brbText').style.fontFamily = btn.dataset.font;
   });
 });
+
+
+// ── timer ────────────────────────────────────────────────────────
+let timerSeconds = 0;
+let timerInterval = null;
+let timerDone = false;
+
+const timerDisplay  = document.getElementById('timerDisplay');
+const timerDoneText = document.getElementById('timerDoneText');
+const timerControls = document.getElementById('timerControls');
+const timerWrap     = document.getElementById('timerWrap');
+
+function getCurrentGradient() {
+  const brb = document.getElementById('brbText');
+  return brb.style.backgroundImage || getComputedStyle(brb).backgroundImage || '';
+}
+
+function applyTimerGradient() {
+  const grad = getCurrentGradient();
+  if (grad) {
+    timerDisplay.style.backgroundImage  = grad;
+    timerDoneText.style.backgroundImage = grad;
+  }
+}
+
+function formatTime(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function tickTimer() {
+  if (timerSeconds <= 0) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerDone = true;
+    timerDisplay.style.display  = 'none';
+    timerDoneText.style.display = 'block';
+    applyTimerGradient();
+    return;
+  }
+  timerSeconds--;
+  timerDisplay.textContent = formatTime(timerSeconds);
+  applyTimerGradient();
+  // little pulse on each tick
+  timerDisplay.classList.remove('pulse-tick');
+  void timerDisplay.offsetWidth;
+  timerDisplay.classList.add('pulse-tick');
+  setTimeout(() => timerDisplay.classList.remove('pulse-tick'), 150);
+}
+
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(tickTimer, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerSeconds  = 0;
+  timerDone     = false;
+  timerDisplay.textContent  = '';
+  timerDisplay.style.display  = 'block';
+  timerDoneText.style.display = 'none';
+}
+
+document.querySelectorAll('.timer-add-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const add = parseInt(btn.dataset.secs, 10);
+    if (timerDone) resetTimer();
+    timerSeconds += add;
+    timerDisplay.textContent = formatTime(timerSeconds);
+    applyTimerGradient();
+    startTimer();
+  });
+});
+
+document.getElementById('timerReset').addEventListener('click', resetTimer);
+
+// keep timer gradient in sync when scheme changes
+const _origApplyScheme = applyScheme;
+// patch: after applyScheme runs, also update timer
+const schemeObserver = new MutationObserver(() => applyTimerGradient());
+schemeObserver.observe(document.getElementById('brbText'), { attributes: true, attributeFilter: ['style'] });
+
+// also add timerWrap to hidden UI list
+uiSelectors.push('#timerWrap');
 
 // ── steam ────────────────────────────────────────────────────────
 const steamContainer = document.getElementById('steamContainer');
