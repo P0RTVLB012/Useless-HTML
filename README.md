@@ -15,7 +15,7 @@ brb is a simple but beautiful HTML, its main use is to be a quick page to change
 "spin me" another HTML where a wheel exists and you put stuff on it. thats it.
 
 # notes (new note after every update):
-emojis.
+plans on a timer for BRB 
 
 
 REPO CREATED BY CYRUSEATSTOASTER (PORTVLBOI2) AND FRAN (MITCHINGS123)
